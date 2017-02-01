@@ -49,6 +49,7 @@ public class ProgressFragment extends Fragment {
     private Context context = MainApplication.getContext();
     private ProgressBar pDialog;
     private String tag_json_arry = "array";
+
     public ProgressFragment() {
         // Required empty public constructor
     }
@@ -62,36 +63,31 @@ public class ProgressFragment extends Fragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_progress, container, false);
-        PlantInProgress = (RecyclerView) view.findViewById(R.id.PlantInProgress);
-        pDialog = (ProgressBar) view.findViewById(R.id.progressBar);
-        return view;
+        return InitializeView(inflater,container,savedInstanceState);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
+        getPlant();
     }
-
     @Override
-    public void onCreateOptionsMenu(
-            Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle item selection
         switch (item.getItemId()) {
             case R.id.action_History:
                 // do s.th.
-                Intent intent= new Intent(getActivity(), HistoryActivity.class);
+                Intent intent = new Intent(getActivity(), HistoryActivity.class);
                 startActivity(intent);
                 return true;
             default:
@@ -100,7 +96,7 @@ public class ProgressFragment extends Fragment {
     }
 
     public void getPlant() {
-        showProgressBar();
+
         final List<plantedPlant> plantedPlantArrayList = new ArrayList<>();
         JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlantedPlantInProgress,
                 new Response.Listener<JSONArray>() {
@@ -113,17 +109,17 @@ public class ProgressFragment extends Fragment {
                                 pp.setDate_final(c.getString("date_final"));
                                 pp.setDate_plantation(c.getString("date_plantation"));
                                 pp.setPosition(c.getString("position"));
-                                Plant p= new Plant();
+                                Plant p = new Plant();
                                 p.setAge(c.getInt("age"));
                                 p.setLibelle(c.getString("Libelle"));
                                 p.setDescription(c.getString("Description"));
                                 pp.setPlant(p);
+                                plantedPlantArrayList.add(pp);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                         setDataToRecyclerView(plantedPlantArrayList);
-                        hideProgressBar();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -135,10 +131,11 @@ public class ProgressFragment extends Fragment {
         MainApplication.getInstance().addToRequestQueue(req,
                 tag_json_arry);
     }
+
     /*
-         *set Data from database to RecyclerView
-         */
-    public void setDataToRecyclerView(List<plantedPlant> plantArrayList) {
+     *set Data from database to RecyclerView
+     */
+    public void setDataToRecyclerView(List<plantedPlant> plantedPlantArrayList) {
         PlantInProgress.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         PlantInProgress.setLayoutManager(mLayoutManager);
@@ -146,19 +143,14 @@ public class ProgressFragment extends Fragment {
         plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList);
         PlantInProgress.setAdapter(plantedPlanAdapter);
     }
-    /*
-     * showProgressBar
-     */
-    private void showProgressBar() {
-        PlantInProgress.setVisibility(View.GONE);
-        pDialog.setVisibility(View.VISIBLE);
-    }
-    /*
-     *hideProgressBar
-     */
-    private void hideProgressBar() {
-        pDialog.setVisibility(View.GONE);
-        PlantInProgress.setVisibility(View.VISIBLE);
-    }
 
+    public View InitializeView(LayoutInflater inflater, ViewGroup container,
+                               Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_progress, container, false);
+        PlantInProgress = (RecyclerView) view.findViewById(R.id.PlantInProgress);
+        pDialog = (ProgressBar) view.findViewById(R.id.progressBar);
+        return view;
+
+
+    }
 }
