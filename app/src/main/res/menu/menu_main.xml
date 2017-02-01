@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="eprit.tn.cowbot.Activity.MainActivity" >
+    <item android:id="@+id/action_History"
+        android:title="@string/action_History"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_history_white_24dp"/>
+</menu>
