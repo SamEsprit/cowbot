@@ -1,4 +1,4 @@
-package eprit.tn.cowbot.fragment;
+package eprit.tn.cowbot.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -34,8 +34,6 @@ import static android.content.ContentValues.TAG;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    private String tag_json_arry = "array";
-
     private RecyclerView planted;
     private RecyclerView plant;
     private PlantAdapter plantAdapter;
@@ -95,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
         // Adding request to request queue
         MainApplication.getInstance().addToRequestQueue(req,
-                tag_json_arry);
+                Const.tag_json_arry);
     }
     /*
      *set Data from database to RecyclerView

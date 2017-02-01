@@ -16,9 +16,9 @@ import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 
 import eprit.tn.cowbot.R;
-import eprit.tn.cowbot.fragment.CamFragment;
-import eprit.tn.cowbot.fragment.ProgressFragment;
-import eprit.tn.cowbot.fragment.WeatherFragment;
+import eprit.tn.cowbot.Fragment.CamFragment;
+import eprit.tn.cowbot.Fragment.ProgressFragment;
+import eprit.tn.cowbot.Fragment.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity {
 
