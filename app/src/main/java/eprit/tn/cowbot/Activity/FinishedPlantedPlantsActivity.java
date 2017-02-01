@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -32,11 +33,12 @@ import eprit.tn.cowbot.Utils.Const;
 import static android.content.ContentValues.TAG;
 
 
-public class HistoryActivity extends AppCompatActivity {
+public class FinishedPlantedPlantsActivity extends AppCompatActivity {
     private RecyclerView history;
     private PlantedPlanFAdapter plantedPlanAdapter;
     private Context context = MainApplication.getContext();
     private ProgressBar pDialog;
+    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,7 @@ public class HistoryActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        Log.d("responce: " , response.toString());
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject c = response.getJSONObject(i);
@@ -103,7 +106,7 @@ public class HistoryActivity extends AppCompatActivity {
      */
     public void setDataToRecyclerView(List<plantedPlant> plantArrayList) {
         history.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+
         history.setLayoutManager(mLayoutManager);
         history.setItemAnimator(new DefaultItemAnimator());
         plantedPlanAdapter = new PlantedPlanFAdapter(plantArrayList);

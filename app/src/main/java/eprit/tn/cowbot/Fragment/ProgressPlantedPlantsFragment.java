@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import eprit.tn.cowbot.Activity.HistoryActivity;
+import eprit.tn.cowbot.Activity.FinishedPlantedPlantsActivity;
 import eprit.tn.cowbot.Adapter.PlantedPlanAdapter;
 import eprit.tn.cowbot.DAO.PlantedPlantDAO;
 import eprit.tn.cowbot.Entity.Plant;
@@ -39,7 +39,7 @@ import eprit.tn.cowbot.Utils.Const;
 import static android.content.ContentValues.TAG;
 
 
-public class ProgressFragment extends Fragment {
+public class ProgressPlantedPlantsFragment extends Fragment {
 
     private RecyclerView PlantInProgress;
     private ArrayList<plantedPlant> plantedPlantArrayList;
@@ -48,7 +48,7 @@ public class ProgressFragment extends Fragment {
     private Context context = MainApplication.getContext();
 
 
-    public ProgressFragment() {
+    public ProgressPlantedPlantsFragment() {
         // Required empty public constructor
     }
 
@@ -85,7 +85,7 @@ public class ProgressFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_History:
                 // do s.th.
-                Intent intent = new Intent(getActivity(), HistoryActivity.class);
+                Intent intent = new Intent(getActivity(), FinishedPlantedPlantsActivity.class);
                 startActivity(intent);
                 return true;
             default:
