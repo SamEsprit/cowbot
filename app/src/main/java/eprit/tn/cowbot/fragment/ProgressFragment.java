@@ -1,4 +1,4 @@
-package eprit.tn.cowbot.fragment;
+package eprit.tn.cowbot.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -47,8 +46,7 @@ public class ProgressFragment extends Fragment {
     private PlantedPlanAdapter plantedPlanAdapter;
     private PlantedPlantDAO plantedPlantDAO = new PlantedPlantDAO();
     private Context context = MainApplication.getContext();
-    private ProgressBar pDialog;
-    private String tag_json_arry = "array";
+
 
     public ProgressFragment() {
         // Required empty public constructor
@@ -129,7 +127,7 @@ public class ProgressFragment extends Fragment {
         });
         // Adding request to request queue
         MainApplication.getInstance().addToRequestQueue(req,
-                tag_json_arry);
+                Const.tag_json_arry);
     }
 
     /*
@@ -148,7 +146,6 @@ public class ProgressFragment extends Fragment {
                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         PlantInProgress = (RecyclerView) view.findViewById(R.id.PlantInProgress);
-        pDialog = (ProgressBar) view.findViewById(R.id.progressBar);
         return view;
 
 
