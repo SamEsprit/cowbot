@@ -65,7 +65,7 @@ public class FinishedPlantedPlantsActivity extends AppCompatActivity {
     public void getPlant() {
         showProgressBar();
         final List<plantedPlant> plantArrayList = new ArrayList<>();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlantedPlantFinished,
+        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlantedPlantFinished+"?id=1",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -94,11 +94,11 @@ public class FinishedPlantedPlantsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hideProgressBar();
             }
         });
         // Adding request to request queue
-        MainApplication.getInstance().addToRequestQueue(req,
-                Const.tag_json_arry);
+        MainApplication.getInstance().addToRequestQueue(req);
     }
 
     /*

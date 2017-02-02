@@ -96,7 +96,7 @@ public class ProgressPlantedPlantsFragment extends Fragment {
     public void getPlant() {
 
         final List<plantedPlant> plantedPlantArrayList = new ArrayList<>();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlantedPlantInProgress,
+        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlantedPlantInProgress+"?id=1",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

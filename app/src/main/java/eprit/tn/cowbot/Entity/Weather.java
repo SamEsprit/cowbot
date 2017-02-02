@@ -10,6 +10,7 @@ public class Weather {
     private String Titre;
     private String value;
     private int ResId;
+    private Cowbot cowbot;
 
     public Weather(String titre, String value, int resId) {
         Titre = titre;
@@ -39,5 +40,13 @@ public class Weather {
 
     public void setResId(int resId) {
         ResId = resId;
+    }
+
+    public Cowbot getCowbot() {
+        return cowbot;
+    }
+
+    public void setCowbot(Cowbot cowbot) {
+        this.cowbot = cowbot;
     }
 }

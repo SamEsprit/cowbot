@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -22,7 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eprit.tn.cowbot.Adapter.PlantAdapter;
 import eprit.tn.cowbot.Entity.Plant;
@@ -66,7 +69,7 @@ public class DashboardActivity extends AppCompatActivity {
     public void getPlant() {
         showProgressBar();
         final List<Plant> plantArrayList = new ArrayList<>();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlants,
+        JsonArrayRequest req = new JsonArrayRequest(Method.GET,Const.URL_getPlants,null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -90,7 +93,15 @@ public class DashboardActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", "1");
+                return params;
+            }
+        };
         // Adding request to request queue
         MainApplication.getInstance().addToRequestQueue(req,
                 Const.tag_json_arry);

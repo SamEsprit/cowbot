@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.setCentreButtonIcon(R.drawable.settings);
         spaceNavigationView.setSpaceBackgroundColor(getColor(R.color.colorPrimary));
         spaceNavigationView.showIconOnly();
+
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {

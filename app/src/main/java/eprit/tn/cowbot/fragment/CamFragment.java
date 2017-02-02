@@ -15,12 +15,10 @@ import com.squareup.picasso.Picasso;
 
 import eprit.tn.cowbot.R;
 
-
 public class CamFragment extends Fragment implements View.OnClickListener {
 
-
     VideoView vidView;
-    ImageButton up, down, left, right,zoommoins,zoomplus;
+    ImageButton up, down, left, right, zoommoins, zoomplus;
 
     public CamFragment() {
         // Required empty public constructor
@@ -36,20 +34,44 @@ public class CamFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_stat, container, false);
-        vidView = (VideoView) v.findViewById(R.id.Streaming);
-        up = (ImageButton) v.findViewById(R.id.up);
-        down = (ImageButton) v.findViewById(R.id.down);
-        right = (ImageButton) v.findViewById(R.id.right);
-        left = (ImageButton) v.findViewById(R.id.left);
-        zoommoins=(ImageButton) v.findViewById(R.id.zoommoins);
-        zoomplus=(ImageButton) v.findViewById(R.id.zoomplus);
-        return v;
+
+        return InitializeView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ViewCreated();
+    }
+
+    private void playStream(String src) {
+        Uri UriSrc = Uri.parse(src);
+        if (UriSrc == null) {
+            Toast.makeText(getActivity(),
+                    "UriSrc == null", Toast.LENGTH_LONG).show();
+        } else {
+            vidView.setVideoURI(UriSrc);
+            vidView.start();
+
+            Toast.makeText(getActivity(),
+                    "Connect: " + src,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_stat, container, false);
+        vidView = (VideoView) view.findViewById(R.id.Streaming);
+        up = (ImageButton) view.findViewById(R.id.up);
+        down = (ImageButton) view.findViewById(R.id.down);
+        right = (ImageButton) view.findViewById(R.id.right);
+        left = (ImageButton) view.findViewById(R.id.left);
+        zoommoins = (ImageButton) view.findViewById(R.id.zoommoins);
+        zoomplus = (ImageButton) view.findViewById(R.id.zoomplus);
+        return view;
+    }
+
+    public void ViewCreated() {
         up.setOnClickListener(this);
         down.setOnClickListener(this);
         right.setOnClickListener(this);
@@ -68,60 +90,28 @@ public class CamFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        vidView.stopPlayback();
-    }
-
-    @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.up :
-                Toast.makeText(getContext(),"machine en avence",Toast.LENGTH_SHORT).show();
-            break;
-            case R.id.down :
-                Toast.makeText(getContext(),"machine en arriére",Toast.LENGTH_SHORT).show();
+        switch (v.getId()) {
+            case R.id.up:
+                Toast.makeText(getContext(), "machine en avence", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.left :
-                Toast.makeText(getContext(),"machine to left",Toast.LENGTH_SHORT).show();
+            case R.id.down:
+                Toast.makeText(getContext(), "machine en arriére", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.right :
-                Toast.makeText(getContext(),"machine to right",Toast.LENGTH_SHORT).show();
+            case R.id.left:
+                Toast.makeText(getContext(), "machine to left", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.zoomplus :
-                Toast.makeText(getContext(),"machine camera zoom +",Toast.LENGTH_SHORT).show();
+            case R.id.right:
+                Toast.makeText(getContext(), "machine to right", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.zoommoins :
-                Toast.makeText(getContext(),"machine camera zoom -",Toast.LENGTH_SHORT).show();
+            case R.id.zoomplus:
+                Toast.makeText(getContext(), "machine camera zoom +", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.zoommoins:
+                Toast.makeText(getContext(), "machine camera zoom -", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
-        }
-    }
-    private void playStream(String src){
-        Uri UriSrc = Uri.parse(src);
-        if(UriSrc == null){
-            Toast.makeText(getActivity(),
-                    "UriSrc == null", Toast.LENGTH_LONG).show();
-        }else{
-            vidView.setVideoURI(UriSrc);
-            vidView.start();
-
-            Toast.makeText(getActivity(),
-                    "Connect: " + src,
-                    Toast.LENGTH_LONG).show();
         }
     }
 }
