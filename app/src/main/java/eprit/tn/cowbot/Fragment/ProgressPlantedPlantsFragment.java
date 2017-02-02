@@ -15,36 +15,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import eprit.tn.cowbot.Activity.FinishedPlantedPlantsActivity;
 import eprit.tn.cowbot.Adapter.PlantedPlanAdapter;
-import eprit.tn.cowbot.DAO.PlantedPlantDAO;
-import eprit.tn.cowbot.Entity.Plant;
-import eprit.tn.cowbot.Entity.plantedPlant;
+import eprit.tn.cowbot.CallBack.PlantedPlantCallBack;
+import eprit.tn.cowbot.Service.PlantedPlantService;
+import eprit.tn.cowbot.Entity.PlantedPlant;
 import eprit.tn.cowbot.MainApplication;
 import eprit.tn.cowbot.R;
-import eprit.tn.cowbot.Utils.Const;
-
-import static android.content.ContentValues.TAG;
 
 
 public class ProgressPlantedPlantsFragment extends Fragment {
 
     private RecyclerView PlantInProgress;
-    private ArrayList<plantedPlant> plantedPlantArrayList;
+    private ArrayList<PlantedPlant> plantedPlantArrayList;
     private PlantedPlanAdapter plantedPlanAdapter;
-    private PlantedPlantDAO plantedPlantDAO = new PlantedPlantDAO();
+    private PlantedPlantService plantedPlantService = new PlantedPlantService();
     private Context context = MainApplication.getContext();
 
 
@@ -95,45 +83,22 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
     public void getPlant() {
 
-        final List<plantedPlant> plantedPlantArrayList = new ArrayList<>();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getPlantedPlantInProgress+"?id=1",
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject c = response.getJSONObject(i);
-                                plantedPlant pp = new plantedPlant();
-                                pp.setDate_final(c.getString("date_final"));
-                                pp.setDate_plantation(c.getString("date_plantation"));
-                                pp.setPosition(c.getString("position"));
-                                Plant p = new Plant();
-                                p.setAge(c.getInt("age"));
-                                p.setLibelle(c.getString("Libelle"));
-                                p.setDescription(c.getString("Description"));
-                                pp.setPlant(p);
-                                plantedPlantArrayList.add(pp);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        setDataToRecyclerView(plantedPlantArrayList);
-                    }
-                }, new Response.ErrorListener() {
+        plantedPlantService.getPlantedPlantsInProgress(new PlantedPlantCallBack() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            public void onSuccess(List<PlantedPlant> plants) {
+                setDataToRecyclerView(plants);
             }
-        });
-        // Adding request to request queue
-        MainApplication.getInstance().addToRequestQueue(req,
-                Const.tag_json_arry);
+
+            @Override
+            public void onFail() {
+            }
+        },1);
     }
 
     /*
      *set Data from database to RecyclerView
      */
-    public void setDataToRecyclerView(List<plantedPlant> plantedPlantArrayList) {
+    public void setDataToRecyclerView(List<PlantedPlant> plantedPlantArrayList) {
         PlantInProgress.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         PlantInProgress.setLayoutManager(mLayoutManager);

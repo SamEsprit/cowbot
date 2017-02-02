@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:layout_collapseMode="parallax"
-    tools:context="eprit.tn.cowbot.Fragment.WeatherFragment">
+    tools:context="eprit.tn.cowbot.Fragment.WeatherFragment"
+    android:background="#ddd">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp" android:text="14°"
+                    android:layout_marginTop="16dp"
                     android:textColor="@android:color/white"
                     android:textSize="100sp"
                     app:layout_constraintBottom_toBottomOf="parent"

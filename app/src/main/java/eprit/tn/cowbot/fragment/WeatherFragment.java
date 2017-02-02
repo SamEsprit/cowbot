@@ -13,25 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import eprit.tn.cowbot.Adapter.WeatherAdapter;
+import eprit.tn.cowbot.CallBack.WeatherCallBack;
 import eprit.tn.cowbot.Entity.Weather;
-import eprit.tn.cowbot.MainApplication;
 import eprit.tn.cowbot.R;
-import eprit.tn.cowbot.Utils.Const;
-
-import static android.content.ContentValues.TAG;
+import eprit.tn.cowbot.Service.WeatherService;
 
 public class WeatherFragment extends Fragment {
 
@@ -39,7 +27,7 @@ public class WeatherFragment extends Fragment {
     private TextView local, temperature, weath;
     private ImageView TempImg;
     private WeatherAdapter weatherAdapter;
-
+    private WeatherService weatherService = new WeatherService();
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -49,8 +37,6 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
     }
@@ -79,49 +65,30 @@ public class WeatherFragment extends Fragment {
      * getData from database
      */
     public void getPlant() {
-
-        final List<Weather> weatherList = new ArrayList<>();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_getWeather,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-
-                            try {
-                                JSONObject c = response.getJSONObject(0);
-                                temperature.setText(c.getString("Temperature"));
-                                weatherList.add(new Weather("Wind",c.getString("Wind"),R.drawable.wind));
-                                weatherList.add(new Weather("WindDirection",c.getString("WindDirection")+" Km/h",R.drawable.wind));
-                                weatherList.add(new Weather("Humidity",c.getString("Humidity")+" %",R.drawable.humidity));
-                                weatherList.add(new Weather("Rain",c.getString("Rain")+" %",R.drawable.rain));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        setDataToRecyclerView(weatherList);
-
-
-                    }
-                }, new Response.ErrorListener() {
+        weatherService.getWeather(new WeatherCallBack() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            public void onSuccess(List<Weather> weathers, String temp) {
+                setDataToRecyclerView(weathers);
+                temperature.setText(temp);
+            }
+
+            @Override
+            public void onFail() {
 
             }
-        });
-        // Adding request to request queue
-        MainApplication.getInstance().addToRequestQueue(req);
+        },1);
     }
+
     /*
          *set Data from database to RecyclerView
          */
     public void setDataToRecyclerView(List<Weather> weatherList) {
-        Log.d("responce: " , weatherList.get(0).getTitre().toString());
+        Log.d("responce: ", weatherList.get(0).getTitre().toString());
         weatherRs.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(),2, GridLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         weatherRs.setLayoutManager(mLayoutManager);
         weatherRs.setItemAnimator(new DefaultItemAnimator());
-        weatherAdapter=new WeatherAdapter(weatherList,getActivity());
+        weatherAdapter = new WeatherAdapter(weatherList, getActivity());
         weatherRs.setAdapter(weatherAdapter);
     }
 

@@ -4,7 +4,7 @@ package eprit.tn.cowbot.Entity;
  * Created by Sami on 15/01/2017.
  */
 
-public class plantedPlant {
+public class PlantedPlant {
     private int id;
     private Plant plant;
     private String position;
@@ -14,7 +14,7 @@ public class plantedPlant {
     private Cowbot cowbot;
 
 
-    public plantedPlant() {
+    public PlantedPlant() {
     }
 
     public int getId() {

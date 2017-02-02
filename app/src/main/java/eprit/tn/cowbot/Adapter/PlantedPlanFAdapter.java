@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import eprit.tn.cowbot.Entity.plantedPlant;
+import eprit.tn.cowbot.Entity.PlantedPlant;
 import eprit.tn.cowbot.R;
 
 
 public class PlantedPlanFAdapter extends RecyclerView.Adapter<PlantedPlanFAdapter.plantedPlantRecycleViewHolder> {
 
-    private List<plantedPlant> plantedPlantRecycleViewList;
+    private List<PlantedPlant> plantedPlantRecycleViewList;
 
 
 
@@ -39,7 +39,7 @@ public class PlantedPlanFAdapter extends RecyclerView.Adapter<PlantedPlanFAdapte
         }
     }
 
-    public PlantedPlanFAdapter(List<plantedPlant> plantedPlantRecycleViewList) {
+    public PlantedPlanFAdapter(List<PlantedPlant> plantedPlantRecycleViewList) {
         this.plantedPlantRecycleViewList = plantedPlantRecycleViewList;
     }
 
@@ -52,7 +52,7 @@ public class PlantedPlanFAdapter extends RecyclerView.Adapter<PlantedPlanFAdapte
 
     @Override
     public void onBindViewHolder(plantedPlantRecycleViewHolder holder, final int position) {
-        final plantedPlant plantedPlant = plantedPlantRecycleViewList.get(position);
+        final PlantedPlant plantedPlant = plantedPlantRecycleViewList.get(position);
         holder.libelle.setText(plantedPlant.getPlant().getLibelle());
         holder.age.setText(plantedPlant.getPlant().getAge()+"");
         holder.position.setText(plantedPlant.getPosition());

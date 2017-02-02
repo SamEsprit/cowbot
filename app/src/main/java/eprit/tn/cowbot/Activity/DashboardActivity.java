@@ -12,28 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import eprit.tn.cowbot.Adapter.PlantAdapter;
+import eprit.tn.cowbot.CallBack.PlantCallBack;
+import eprit.tn.cowbot.Service.PlantService;
 import eprit.tn.cowbot.Entity.Plant;
-import eprit.tn.cowbot.MainApplication;
 import eprit.tn.cowbot.R;
-import eprit.tn.cowbot.Utils.Const;
-
-import static android.content.ContentValues.TAG;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -42,6 +27,7 @@ public class DashboardActivity extends AppCompatActivity {
     private PlantAdapter plantAdapter;
     private GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
     private ProgressBar pDialog;
+    private PlantService plantService = new PlantService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,43 +54,16 @@ public class DashboardActivity extends AppCompatActivity {
      */
     public void getPlant() {
         showProgressBar();
-        final List<Plant> plantArrayList = new ArrayList<>();
-        JsonArrayRequest req = new JsonArrayRequest(Method.GET,Const.URL_getPlants,null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject c = response.getJSONObject(i);
-                                Plant p = new Plant();
-                                p.setAge(c.getInt("age"));
-                                p.setLibelle(c.getString("Libelle"));
-                                p.setDescription(c.getString("Description"));
-                                plantArrayList.add(p);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        setDataToRecyclerView(plantArrayList);
-                        hideProgressBar();
-                    }
-                }, new Response.ErrorListener() {
+        plantService.getAllPlants(new PlantCallBack() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            public void onSuccess(List<Plant> plants) {
+                setDataToRecyclerView(plants);
+                hideProgressBar();
             }
-        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("id", "1");
-                return params;
+            public void onFail() {
             }
-        };
-        // Adding request to request queue
-        MainApplication.getInstance().addToRequestQueue(req,
-                Const.tag_json_arry);
+        });
     }
     /*
      *set Data from database to RecyclerView
