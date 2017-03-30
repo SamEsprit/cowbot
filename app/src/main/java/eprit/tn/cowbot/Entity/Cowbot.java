@@ -4,6 +4,7 @@ package eprit.tn.cowbot.Entity;
  * Created by Sami on 15/01/2017.
  */
 
+
 public class Cowbot {
     private int id;
     private String username;

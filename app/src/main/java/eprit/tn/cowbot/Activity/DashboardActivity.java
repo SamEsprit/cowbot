@@ -9,16 +9,17 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import java.util.List;
 
 import eprit.tn.cowbot.Adapter.PlantAdapter;
-import eprit.tn.cowbot.CallBack.PlantCallBack;
-import eprit.tn.cowbot.Service.PlantService;
+import eprit.tn.cowbot.CallBack.AbstractServiceCallBack;
 import eprit.tn.cowbot.Entity.Plant;
 import eprit.tn.cowbot.R;
+import eprit.tn.cowbot.Service.PlantService;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -43,6 +44,8 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         planted = (RecyclerView) findViewById(R.id.planted);
         plant = (RecyclerView) findViewById(R.id.plant);
         pDialog = (ProgressBar) findViewById(R.id.progressBar);
@@ -54,15 +57,13 @@ public class DashboardActivity extends AppCompatActivity {
      */
     public void getPlant() {
         showProgressBar();
-        plantService.getAllPlants(new PlantCallBack() {
-            @Override
-            public void onSuccess(List<Plant> plants) {
+        plantService.getAllPlants(new AbstractServiceCallBack<Plant>() {
+
+            public void onSuccess(List plants) {
                 setDataToRecyclerView(plants);
                 hideProgressBar();
             }
-            @Override
-            public void onFail() {
-            }
+
         });
     }
     /*
@@ -89,4 +90,15 @@ public class DashboardActivity extends AppCompatActivity {
         pDialog.setVisibility(View.GONE);
         plant.setVisibility(View.VISIBLE);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setVisible(true);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

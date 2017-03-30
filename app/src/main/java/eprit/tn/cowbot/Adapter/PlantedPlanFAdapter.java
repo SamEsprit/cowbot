@@ -1,35 +1,41 @@
 package eprit.tn.cowbot.Adapter;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import eprit.tn.cowbot.Entity.PlantedPlant;
+import eprit.tn.cowbot.MainApplication;
 import eprit.tn.cowbot.R;
 
 
 public class PlantedPlanFAdapter extends RecyclerView.Adapter<PlantedPlanFAdapter.plantedPlantRecycleViewHolder> {
 
     private List<PlantedPlant> plantedPlantRecycleViewList;
-
+    Context context = MainApplication.getContext();
 
 
     public class plantedPlantRecycleViewHolder extends RecyclerView.ViewHolder {
         TextView libelle,position,dateplantation,datefinal,progresstext,age;
         ProgressBar circularProgressBar;
-
+        ImageView PlantImg;
 
 
 
         public plantedPlantRecycleViewHolder(View row) {
             super(row);
             libelle=(TextView)row.findViewById(R.id.libelle);
+            PlantImg=(ImageView)row.findViewById(R.id.PlantImg);
             age=(TextView)row.findViewById(R.id.age);
             position=(TextView)row.findViewById(R.id.position);
             dateplantation=(TextView)row.findViewById(R.id.dateplantation);
@@ -58,6 +64,7 @@ public class PlantedPlanFAdapter extends RecyclerView.Adapter<PlantedPlanFAdapte
         holder.position.setText(plantedPlant.getPosition());
         holder.datefinal.setText(plantedPlant.getDate_final());
         holder.dateplantation.setText(plantedPlant.getDate_plantation());
+        Picasso.with(context).load("http://www.theleadercenter.tn/Cowbot/Images/" + plantedPlant.getPlant().getImage()).into(holder.PlantImg);
         holder.progresstext.setText("1OO%");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.circularProgressBar.setProgress(100, true);

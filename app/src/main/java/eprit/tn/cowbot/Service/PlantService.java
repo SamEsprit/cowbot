@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import eprit.tn.cowbot.CallBack.PlantCallBack;
+import eprit.tn.cowbot.CallBack.AbstractServiceCallBack;
 import eprit.tn.cowbot.Entity.Plant;
 import eprit.tn.cowbot.Interface.IManagement;
 import eprit.tn.cowbot.MainApplication;
@@ -28,7 +28,7 @@ import static android.content.ContentValues.TAG;
 public class PlantService implements IManagement {
 
 
-    public void getAllPlants(final PlantCallBack onCallBack)
+    public void getAllPlants(final AbstractServiceCallBack<Plant> onCallBack)
     {
         final List<Plant> plantArrayList = new ArrayList<>();
 
@@ -47,6 +47,7 @@ public class PlantService implements IManagement {
                                 p.setAge(c.getInt("age"));
                                 p.setLibelle(c.getString("Libelle"));
                                 p.setDescription(c.getString("Description"));
+                                p.setImage(c.getString("image"));
                                 plantArrayList.add(p);
 
                             }

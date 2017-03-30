@@ -5,7 +5,7 @@ package eprit.tn.cowbot.Interface;
  */
 
 public interface IManagement {
-    void updatePlant(int id);
 
+    void updatePlant(int id);
     void removePlant(int id);
 }

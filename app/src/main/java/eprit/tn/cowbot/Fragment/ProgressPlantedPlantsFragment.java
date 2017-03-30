@@ -8,33 +8,35 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import eprit.tn.cowbot.Activity.FinishedPlantedPlantsActivity;
 import eprit.tn.cowbot.Adapter.PlantedPlanAdapter;
-import eprit.tn.cowbot.CallBack.PlantedPlantCallBack;
-import eprit.tn.cowbot.Service.PlantedPlantService;
+import eprit.tn.cowbot.CallBack.AbstractServiceCallBack;
 import eprit.tn.cowbot.Entity.PlantedPlant;
 import eprit.tn.cowbot.MainApplication;
 import eprit.tn.cowbot.R;
+import eprit.tn.cowbot.Service.PlantedPlantService;
 
 
 public class ProgressPlantedPlantsFragment extends Fragment {
 
     private RecyclerView PlantInProgress;
-    private ArrayList<PlantedPlant> plantedPlantArrayList;
     private PlantedPlanAdapter plantedPlanAdapter;
     private PlantedPlantService plantedPlantService = new PlantedPlantService();
     private Context context = MainApplication.getContext();
-
+    private TextView dataText;
+    private ProgressBar progressData;
 
     public ProgressPlantedPlantsFragment() {
         // Required empty public constructor
@@ -83,14 +85,26 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
     public void getPlant() {
 
-        plantedPlantService.getPlantedPlantsInProgress(new PlantedPlantCallBack() {
+        plantedPlantService.getPlantedPlantsInProgress(new AbstractServiceCallBack<PlantedPlant>()
+        {
             @Override
-            public void onSuccess(List<PlantedPlant> plants) {
-                setDataToRecyclerView(plants);
+            public void onSuccess(List t) {
+                progressData.setVisibility(View.GONE);
+                setDataToRecyclerView(t);
+            }
+
+            @Override
+            public void noData() {
+                PlantInProgress.setVisibility(View.GONE);
+                progressData.setVisibility(View.GONE);
+                dataText.setVisibility(View.VISIBLE);
+
+                Log.i("data","no data");
             }
 
             @Override
             public void onFail() {
+
             }
         },1);
     }
@@ -105,12 +119,18 @@ public class ProgressPlantedPlantsFragment extends Fragment {
         PlantInProgress.setItemAnimator(new DefaultItemAnimator());
         plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList);
         PlantInProgress.setAdapter(plantedPlanAdapter);
+        PlantInProgress.setVisibility(View.VISIBLE);
     }
 
     public View InitializeView(LayoutInflater inflater, ViewGroup container,
                                Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         PlantInProgress = (RecyclerView) view.findViewById(R.id.PlantInProgress);
+        progressData=(ProgressBar)view.findViewById(R.id.progressData);
+        dataText=(TextView)view.findViewById(R.id.dataText);
+        PlantInProgress.setVisibility(View.GONE);
+        progressData.setVisibility(View.VISIBLE);
+        dataText.setVisibility(View.GONE);
         return view;
 
 

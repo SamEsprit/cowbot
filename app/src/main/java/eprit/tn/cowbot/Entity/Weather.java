@@ -11,7 +11,7 @@ public class Weather {
     private String value;
     private int ResId;
     private Cowbot cowbot;
-
+    private int color;
     public Weather(String titre, String value, int resId) {
         Titre = titre;
         this.value = value;
