@@ -1,17 +1,17 @@
-package eprit.tn.cowbot.Entity;
+package eprit.tn.cowbot.Entity.Weather;
+
+import java.io.Serializable;
 
 /**
  * Created by Sami on 29/01/2017.
  */
 
-public class Weather {
+public class Weather implements Serializable {
 
 
     private String Titre;
     private String value;
     private int ResId;
-    private Cowbot cowbot;
-    private int color;
     public Weather(String titre, String value, int resId) {
         Titre = titre;
         this.value = value;
@@ -42,11 +42,5 @@ public class Weather {
         ResId = resId;
     }
 
-    public Cowbot getCowbot() {
-        return cowbot;
-    }
 
-    public void setCowbot(Cowbot cowbot) {
-        this.cowbot = cowbot;
-    }
 }

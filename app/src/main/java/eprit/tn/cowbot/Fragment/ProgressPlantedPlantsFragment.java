@@ -1,6 +1,5 @@
 package eprit.tn.cowbot.Fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,19 +20,16 @@ import java.util.List;
 
 import eprit.tn.cowbot.Activity.FinishedPlantedPlantsActivity;
 import eprit.tn.cowbot.Adapter.PlantedPlanAdapter;
-import eprit.tn.cowbot.CallBack.AbstractServiceCallBack;
 import eprit.tn.cowbot.Entity.PlantedPlant;
-import eprit.tn.cowbot.MainApplication;
 import eprit.tn.cowbot.R;
-import eprit.tn.cowbot.Service.PlantedPlantService;
 
 
 public class ProgressPlantedPlantsFragment extends Fragment {
 
     private RecyclerView PlantInProgress;
     private PlantedPlanAdapter plantedPlanAdapter;
-    private PlantedPlantService plantedPlantService = new PlantedPlantService();
-    private Context context = MainApplication.getContext();
+
+
     private TextView dataText;
     private ProgressBar progressData;
 
@@ -62,7 +57,6 @@ public class ProgressPlantedPlantsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getPlant();
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -83,38 +77,12 @@ public class ProgressPlantedPlantsFragment extends Fragment {
         }
     }
 
-    public void getPlant() {
-
-        plantedPlantService.getPlantedPlantsInProgress(new AbstractServiceCallBack<PlantedPlant>()
-        {
-            @Override
-            public void onSuccess(List t) {
-                progressData.setVisibility(View.GONE);
-                setDataToRecyclerView(t);
-            }
-
-            @Override
-            public void noData() {
-                PlantInProgress.setVisibility(View.GONE);
-                progressData.setVisibility(View.GONE);
-                dataText.setVisibility(View.VISIBLE);
-
-                Log.i("data","no data");
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-        },1);
-    }
-
     /*
      *set Data from database to RecyclerView
      */
     public void setDataToRecyclerView(List<PlantedPlant> plantedPlantArrayList) {
         PlantInProgress.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         PlantInProgress.setLayoutManager(mLayoutManager);
         PlantInProgress.setItemAnimator(new DefaultItemAnimator());
         plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList);
@@ -122,8 +90,7 @@ public class ProgressPlantedPlantsFragment extends Fragment {
         PlantInProgress.setVisibility(View.VISIBLE);
     }
 
-    public View InitializeView(LayoutInflater inflater, ViewGroup container,
-                               Bundle savedInstanceState) {
+    public View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         PlantInProgress = (RecyclerView) view.findViewById(R.id.PlantInProgress);
         progressData=(ProgressBar)view.findViewById(R.id.progressData);

@@ -1,17 +1,30 @@
-package eprit.tn.cowbot.Entity;
+package eprit.tn.cowbot.Entity.Plant;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Created by Sami on 15/01/2017.
  */
 
-public class Plant {
+public class Plant implements Serializable {
+    @SerializedName("id")
     private int id;
+    @SerializedName("Libelle")
     private String libelle;
+    @SerializedName("Image")
     private String image;
+    @SerializedName("Age")
     private int age;
+    @SerializedName("Description")
     private String Description;
 
     public Plant() {
+    }
+
+    public Plant(String libelle) {
+        this.libelle = libelle;
     }
 
     public int getId() {
@@ -52,5 +65,26 @@ public class Plant {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    @Override
+    public String toString() {
+        return libelle ;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Plant plant = (Plant) o;
+        return libelle.equals(plant.libelle);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return libelle.hashCode();
     }
 }

@@ -12,7 +12,7 @@ import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 
-import eprit.tn.cowbot.Adapter.SectionsPagerAdapter;
+import eprit.tn.cowbot.ViewAdapter.SectionsPagerAdapter;
 import eprit.tn.cowbot.R;
 
 public class MainActivity extends AppCompatActivity {

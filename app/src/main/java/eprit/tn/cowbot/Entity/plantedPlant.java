@@ -1,5 +1,7 @@
 package eprit.tn.cowbot.Entity;
 
+import eprit.tn.cowbot.Entity.Plant.Plant;
+
 /**
  * Created by Sami on 15/01/2017.
  */

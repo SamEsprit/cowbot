@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import eprit.tn.cowbot.Entity.Weather;
+import eprit.tn.cowbot.Entity.Weather.Weather;
 import eprit.tn.cowbot.R;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ItemRecycleViewHolder>  {

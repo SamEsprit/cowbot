@@ -86,7 +86,7 @@ public class CamFragment extends Fragment implements View.OnClickListener {
         Picasso.with(getActivity()).load(R.drawable.right).fit().into(right);
         Picasso.with(getActivity()).load(R.drawable.moins).fit().into(zoommoins);
         Picasso.with(getActivity()).load(R.drawable.plus).fit().into(zoomplus);
-        playStream("http://www.androidbegin.com/tutorial/AndroidCommercial.3gp");
+        playStream("http://41.228.241.72:9090/stream/video.mjpeg");
     }
 
     @Override

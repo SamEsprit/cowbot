@@ -1,4 +1,4 @@
-package eprit.tn.cowbot.Adapter;
+package eprit.tn.cowbot.ViewAdapter;
 
 /**
  * Created by Sami on 01/02/2017.
