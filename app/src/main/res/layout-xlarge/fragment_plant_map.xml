@@ -3,12 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:weightSum="3"
     tools:context="eprit.tn.cowbot.Fragment.PlantMapFragment">
+    <LinearLayout
+        android:id="@+id/exist_plant"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="@color/cardview_shadow_start_color"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    </LinearLayout>
     <LinearLayout android:id="@+id/plant_map"
-                  android:layout_width="match_parent"
-                  android:layout_height="0dp"
+                  android:layout_width="0dp"
+                  android:layout_height="match_parent"
                   android:layout_weight="2.5"
                   android:background="#ca8"
                   android:orientation="vertical">
@@ -75,7 +85,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="horizontal" android:visibility="visible">
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="visible">
             <LinearLayout
                 android:id="@+id/p7"
                 android:layout_width="match_parent"
@@ -188,15 +200,5 @@
                 android:orientation="horizontal" android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/exist_plant"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:background="@color/cardview_shadow_start_color"
-        android:gravity="center"
-        android:orientation="horizontal">
-
     </LinearLayout>
 </LinearLayout>

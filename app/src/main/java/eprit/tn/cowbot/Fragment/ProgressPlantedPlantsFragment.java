@@ -20,8 +20,14 @@ import java.util.List;
 
 import eprit.tn.cowbot.Activity.FinishedPlantedPlantsActivity;
 import eprit.tn.cowbot.Adapter.PlantedPlanAdapter;
-import eprit.tn.cowbot.Entity.PlantedPlant;
+import eprit.tn.cowbot.Entity.Planted.PlantedInput;
+import eprit.tn.cowbot.Factory.ServiceFactory;
 import eprit.tn.cowbot.R;
+import eprit.tn.cowbot.Service.PlantedService;
+import eprit.tn.cowbot.Utils.URLS;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class ProgressPlantedPlantsFragment extends Fragment {
@@ -33,6 +39,10 @@ public class ProgressPlantedPlantsFragment extends Fragment {
     private TextView dataText;
     private ProgressBar progressData;
 
+    private CompositeDisposable mCompositeDisposable;
+    private PlantedService plantedService;
+    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+
     public ProgressPlantedPlantsFragment() {
         // Required empty public constructor
     }
@@ -43,7 +53,7 @@ public class ProgressPlantedPlantsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
+        InitializeUtils();
     }
 
 
@@ -51,13 +61,15 @@ public class ProgressPlantedPlantsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return InitializeView(inflater,container,savedInstanceState);
+        return InitializeView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getData();
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
@@ -77,24 +89,44 @@ public class ProgressPlantedPlantsFragment extends Fragment {
         }
     }
 
+
+    private void getData() {
+        mCompositeDisposable.add(plantedService.InProgressPlant(10)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handlePlantedResponse, this::handlePlantedError));
+    }
+
+    private void handlePlantedError(Throwable throwable) {
+    }
+
+    private void handlePlantedResponse(List<PlantedInput> plantedInputs) {
+        progressData.setVisibility(View.INVISIBLE);
+        if(plantedInputs.size()==0)
+            dataText.setVisibility(View.VISIBLE);
+        else
+        setDataToRecyclerView(plantedInputs);
+    }
+
     /*
      *set Data from database to RecyclerView
      */
-    public void setDataToRecyclerView(List<PlantedPlant> plantedPlantArrayList) {
+    private void setDataToRecyclerView(List<PlantedInput> plantedPlantArrayList) {
         PlantInProgress.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+
         PlantInProgress.setLayoutManager(mLayoutManager);
         PlantInProgress.setItemAnimator(new DefaultItemAnimator());
         plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList);
         PlantInProgress.setAdapter(plantedPlanAdapter);
         PlantInProgress.setVisibility(View.VISIBLE);
+
     }
 
-    public View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    private View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         PlantInProgress = (RecyclerView) view.findViewById(R.id.PlantInProgress);
-        progressData=(ProgressBar)view.findViewById(R.id.progressData);
-        dataText=(TextView)view.findViewById(R.id.dataText);
+        progressData = (ProgressBar) view.findViewById(R.id.progressData);
+        dataText = (TextView) view.findViewById(R.id.dataText);
         PlantInProgress.setVisibility(View.GONE);
         progressData.setVisibility(View.VISIBLE);
         dataText.setVisibility(View.GONE);
@@ -102,4 +134,11 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
 
     }
+
+    private void InitializeUtils() {
+        mCompositeDisposable = new CompositeDisposable();
+        plantedService = ServiceFactory.createRetrofitService(PlantedService.class, URLS.EndPoint);
+    }
+
+
 }

@@ -91,14 +91,17 @@ public class SeedsFragment extends Fragment {
         potList3 = new ArrayList<>();
         potList4 = new ArrayList<>();
         potList5 = new ArrayList<>();
-
+        potList1.add(0,new Plant("Choose Seed"));
+        potList2.add(0,new Plant("Choose Seed"));
+        potList3.add(0,new Plant("Choose Seed"));
+        potList4.add(0,new Plant("Choose Seed"));
+        potList5.add(0,new Plant("Choose Seed"));
 
         potList1Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList1);
         potList2Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList2);
         potList3Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList3);
         potList4Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList4);
         potList5Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList5);
-
     }
 
     public View InitilizeView(LayoutInflater inflater, ViewGroup container,
@@ -200,11 +203,7 @@ public class SeedsFragment extends Fragment {
         potList3.addAll(plants);
         potList4.addAll(plants);
         potList5.addAll(plants);
-        potList1.add(0,new Plant("Choise Seed"));
-        potList2.add(0,new Plant("Choise Seed"));
-        potList3.add(0,new Plant("Choise Seed"));
-        potList4.add(0,new Plant("Choise Seed"));
-        potList5.add(0,new Plant("Choise Seed"));
+
         potList1Adapter.notifyDataSetChanged();
         potList2Adapter.notifyDataSetChanged();
         potList3Adapter.notifyDataSetChanged();
@@ -229,41 +228,55 @@ public class SeedsFragment extends Fragment {
                 Plant plant4 = (Plant) pot4.getSelectedItem();
                 Plant plant5 = (Plant) pot5.getSelectedItem();
 
-                if (plant1.getLibelle().equals("Choise seed")) {
-                    System.out.println("do nothing1");
+                if (plant1.getLibelle().equals("Choose Seed")) {
+                    mCompositeDisposable.add(seedService.SeedControlDelete(new SeedsOutput(10, null, "A0"))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe());
                 } else {
-                    System.out.println(plant1.getId());
                     mCompositeDisposable.add(seedService.SeedControl(new SeedsOutput(10, plant1.getId(), "A0"))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe());
                 }
-                if (plant2.getLibelle().equals("Choise seed")) {
-                    System.out.println("do nothing2");
+                if (plant2.getLibelle().equals("Choose Seed")) {
+                    mCompositeDisposable.add(seedService.SeedControlDelete(new SeedsOutput(10, null, "A1"))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe());
                 } else {
                     mCompositeDisposable.add(seedService.SeedControl(new SeedsOutput(10, plant2.getId(), "A1"))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe());
                 }
-                if (plant3.getLibelle().equals("Choise seed")) {
-                    System.out.println("do nothing3");
+                if (plant3.getLibelle().equals("Choose Seed")) {
+                    mCompositeDisposable.add(seedService.SeedControlDelete(new SeedsOutput(10,null, "A2"))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe());
                 } else {
                     mCompositeDisposable.add(seedService.SeedControl(new SeedsOutput(10, plant3.getId(), "A2"))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe());
                 }
-                if (plant4.getLibelle().equals("Choise seed")) {
-                    System.out.println("do nothing4");
+                if (plant4.getLibelle().equals("Choose Seed")) {
+                    mCompositeDisposable.add(seedService.SeedControlDelete(new SeedsOutput(10, null, "A3"))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe());
                 } else {
                     mCompositeDisposable.add(seedService.SeedControl(new SeedsOutput(10, plant4.getId(), "A3"))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe());
                 }
-                if (plant5.getLibelle().equals("Choise seed")) {
-                    System.out.println("do nothing5");
+                if (plant5.getLibelle().equals("Choose Seed")) {
+                    mCompositeDisposable.add(seedService.SeedControlDelete(new SeedsOutput(10, null, "A4"))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe());
                 } else {
                     mCompositeDisposable.add(seedService.SeedControl(new SeedsOutput(10, plant5.getId(), "A4"))
                             .observeOn(AndroidSchedulers.mainThread())

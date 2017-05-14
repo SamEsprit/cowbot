@@ -1,26 +1,21 @@
-package eprit.tn.cowbot.Entity.Seeds;
+package eprit.tn.cowbot.Entity.Plant;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 /**
- * Created by Sami on 27/04/2017.
+ * Created by Sami on 09/05/2017.
  */
 
-public class Seed implements Serializable {
-
-
+public class PlantToPlantOutput {
     @SerializedName("user_id")
     private Integer user_id;
     @SerializedName("plant_id")
     private Integer plant_id;
-    @SerializedName("position")
-    private String position;
     @SerializedName("X")
     private String X;
     @SerializedName("Y")
     private String Y;
+
 
     public Integer getUser_id() {
         return user_id;
@@ -36,14 +31,6 @@ public class Seed implements Serializable {
 
     public void setPlant_id(Integer plant_id) {
         this.plant_id = plant_id;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public String getX() {

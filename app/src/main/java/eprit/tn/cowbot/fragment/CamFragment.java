@@ -1,6 +1,5 @@
 package eprit.tn.cowbot.Fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.squareup.picasso.Picasso;
+
+import com.bumptech.glide.Glide;
 
 import eprit.tn.cowbot.R;
 
@@ -45,18 +45,9 @@ public class CamFragment extends Fragment implements View.OnClickListener {
     }
 
     private void playStream(String src) {
-        Uri UriSrc = Uri.parse(src);
-        if (UriSrc == null) {
-            Toast.makeText(getActivity(),
-                    "UriSrc == null", Toast.LENGTH_LONG).show();
-        } else {
-            vidView.setVideoURI(UriSrc);
-            vidView.start();
 
-            Toast.makeText(getActivity(),
-                    "Connect: " + src,
-                    Toast.LENGTH_LONG).show();
-        }
+            vidView.setVideoPath(src);
+            vidView.start();
     }
 
     public View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,13 +71,13 @@ public class CamFragment extends Fragment implements View.OnClickListener {
         zoomplus.setOnClickListener(this);
 
 
-        Picasso.with(getActivity()).load(R.drawable.up).fit().into(up);
-        Picasso.with(getActivity()).load(R.drawable.down).fit().into(down);
-        Picasso.with(getActivity()).load(R.drawable.left).fit().into(left);
-        Picasso.with(getActivity()).load(R.drawable.right).fit().into(right);
-        Picasso.with(getActivity()).load(R.drawable.moins).fit().into(zoommoins);
-        Picasso.with(getActivity()).load(R.drawable.plus).fit().into(zoomplus);
-        playStream("http://41.228.241.72:9090/stream/video.mjpeg");
+        Glide.with(getActivity()).load(R.drawable.up).fitCenter().into(up);
+        Glide.with(getActivity()).load(R.drawable.down).fitCenter().into(down);
+        Glide.with(getActivity()).load(R.drawable.left).fitCenter().into(left);
+        Glide.with(getActivity()).load(R.drawable.right).fitCenter().into(right);
+        Glide.with(getActivity()).load(R.drawable.moins).fitCenter().into(zoommoins);
+        Glide.with(getActivity()).load(R.drawable.plus).fitCenter().into(zoomplus);
+        //playStream("http://trackfield.webcam.oregonstate.edu/axis-cgi/mjpg/video.cgi");
     }
 
     @Override

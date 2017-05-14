@@ -22,4 +22,6 @@ public interface SeedService {
     Observable<List<SeedsInput>> getSeeds(@Path("id")int id);
     @POST("Api/SeedControl")
     Completable SeedControl(@Body SeedsOutput seedsOutput);
+    @POST("Api/SeedControlDelete")
+    Completable SeedControlDelete(@Body SeedsOutput seedsOutput);
 }

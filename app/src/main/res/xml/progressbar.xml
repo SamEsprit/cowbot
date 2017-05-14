@@ -10,7 +10,7 @@
             android:thicknessRatio="7.0"
             android:useLevel="false">
 
-            <solid android:color="#990012"/>
+            <solid android:color="#00a6ff"/>
 
         </shape>
 
@@ -22,7 +22,7 @@
             android:innerRadiusRatio="3"
             android:shape="ring"
             android:thicknessRatio="7.0">
-            <solid android:color="#FBB917" />
+            <solid android:color="#21df00" />
 
         </shape>
 

@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import eprit.tn.cowbot.Adapter.PlantedPlanFAdapter;
-import eprit.tn.cowbot.Entity.PlantedPlant;
+import eprit.tn.cowbot.Adapter.PlantedPlanAdapter;
+import eprit.tn.cowbot.Entity.Planted.PlantedInput;
 import eprit.tn.cowbot.R;
 
 
@@ -25,10 +25,9 @@ public class FinishedPlantedPlantsActivity extends AppCompatActivity {
     private ProgressBar progressData;
     private TextView dataText;
 
-
     private RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
-    private PlantedPlanFAdapter plantedPlanAdapter;
+    private PlantedPlanAdapter plantedPlanAdapter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         InitializeView();
@@ -51,11 +50,11 @@ public class FinishedPlantedPlantsActivity extends AppCompatActivity {
     /*
      *set Data from database to RecyclerView
      */
-    public void setDataToRecyclerView(List<PlantedPlant> plantArrayList) {
+    public void setDataToRecyclerView(List<PlantedInput> plantArrayList) {
         history.setHasFixedSize(true);
         history.setLayoutManager(mLayoutManager);
         history.setItemAnimator(new DefaultItemAnimator());
-        plantedPlanAdapter = new PlantedPlanFAdapter(plantArrayList);
+        plantedPlanAdapter = new PlantedPlanAdapter(plantArrayList);
         history.setAdapter(plantedPlanAdapter);
     }
 }

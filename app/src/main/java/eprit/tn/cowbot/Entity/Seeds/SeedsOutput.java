@@ -1,5 +1,7 @@
 package eprit.tn.cowbot.Entity.Seeds;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -16,7 +18,7 @@ public class SeedsOutput implements Serializable {
     @SerializedName("position")
     private String position;
 
-    public SeedsOutput(Integer user_id, Integer plant_id, String position) {
+    public SeedsOutput(Integer user_id, @Nullable Integer plant_id, String position) {
         this.user_id = user_id;
         this.plant_id = plant_id;
         this.position = position;

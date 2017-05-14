@@ -12,6 +12,8 @@ public class SeedsInput implements Serializable {
 
     @SerializedName("Libelle")
     private String libelle;
+    @SerializedName("Image")
+    private String Image;
     @SerializedName("pivot")
     private Seed seed;
 
@@ -31,6 +33,14 @@ public class SeedsInput implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 
     @Override

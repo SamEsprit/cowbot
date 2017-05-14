@@ -91,7 +91,7 @@ public class WeatherFragment extends Fragment {
         weathers.add(new Weather("Wind \nDirection",weather.getWindDirection(),R.drawable.wind));
         weathers.add(new Weather("Humidity",weather.getHumidity()+"%",R.drawable.humidity));
         weathers.add(new Weather("Rain",weather.getRain(),R.drawable.rain));
-        temperature.setText(weather.getTemperature());
+        temperature.setText(weather.getTemperature()+"°C");
 
         setDataToRecyclerView(weathers);
         addresses = geocoder.getFromLocation(Double.parseDouble(weather.getLatitude()), Double.parseDouble(weather.getLongitude()), 1);

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="eprit.tn.cowbot.Activity.DashboardActivity" >
     <item android:id="@+id/action_seeds_syncro"
-        android:title="@string/action_History"
+        android:title="@string/action_e_sync"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 </menu>
