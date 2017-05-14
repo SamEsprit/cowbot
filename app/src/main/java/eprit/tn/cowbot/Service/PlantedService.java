@@ -15,4 +15,6 @@ public interface PlantedService {
 
     @GET("Api/InProgressPlante/{id}")
     Observable<List<PlantedInput>> InProgressPlant(@Path("id")int id);
+    @GET("Api/FinishedPlante/{id}")
+    Observable<List<PlantedInput>> FinishedPlante(@Path("id")int id);
 }

@@ -116,7 +116,7 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
         PlantInProgress.setLayoutManager(mLayoutManager);
         PlantInProgress.setItemAnimator(new DefaultItemAnimator());
-        plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList);
+        plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList,getActivity());
         PlantInProgress.setAdapter(plantedPlanAdapter);
         PlantInProgress.setVisibility(View.VISIBLE);
 
