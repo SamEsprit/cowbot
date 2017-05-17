@@ -3,6 +3,7 @@ package eprit.tn.cowbot.Fragment;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -331,20 +333,32 @@ public class PlantMapFragment extends Fragment {
 
                         break;
                     case DragEvent.ACTION_DRAG_ENTERED:
+                        if (((LinearLayout) v).getChildCount()==0)
+                        v.setBackgroundResource(R.drawable.plant_place_drag_enter);
 
                         break;
                     case DragEvent.ACTION_DRAG_EXITED:
 
+                        v.setBackgroundResource(R.drawable.plant_place);
                         break;
                     case DragEvent.ACTION_DROP:
                         View view = (View) event.getLocalState();
                         ViewGroup owner = (ViewGroup) view.getParent();
                         owner.removeView(view);
+
+                        if(isTablet(getActivity())==true)
+                        {
+                            view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0));
+                        }
                         TextView libelle = (TextView) view.findViewById(R.id.libelle);
                         PosLib poslib = new PosLib(position, libelle.getText().toString());
-                        posLib.add(poslib);
+
                         LinearLayout newParent = (LinearLayout) v;
+                        if (newParent.getChildCount()==1 )
+                            Toast.makeText(getActivity(),"Impossible to Drag the seeds in this place",Toast.LENGTH_SHORT).show();
+                        else{
                         newParent.addView(view);
+                        posLib.add(poslib);}
                         view.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
@@ -369,7 +383,7 @@ public class PlantMapFragment extends Fragment {
                         getSeedsPlants();
                         break;
                     case DragEvent.ACTION_DRAG_ENDED:
-
+                        v.setBackgroundResource(R.drawable.plant_place);
 
                     default:
                         break;
@@ -580,5 +594,13 @@ public class PlantMapFragment extends Fragment {
         p17.removeAllViews();
         p18.removeAllViews();
 
+    }
+
+
+
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
     }
 }

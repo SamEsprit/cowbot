@@ -1,24 +1,35 @@
 package eprit.tn.cowbot.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 
 import com.bumptech.glide.Glide;
 
 import eprit.tn.cowbot.R;
+import info.hoang8f.android.segmented.SegmentedGroup;
+import io.reactivex.disposables.CompositeDisposable;
 
-public class CamFragment extends Fragment implements View.OnClickListener {
+public class CamFragment extends Fragment {
 
-    VideoView vidView;
-    ImageButton up, down, left, right, zoommoins, zoomplus;
+    private VideoView vidView;
+    private ImageButton up, down, left, right, zoommoins, zoomplus;
+    private SegmentedGroup speed;
+    private Spinner AxeX,AxeY;
+    private CompositeDisposable mCompositeDisposable;
+    private ArrayAdapter<CharSequence> AxeXAdapter, AxeYAdapter;
+
+
 
     public CamFragment() {
         // Required empty public constructor
@@ -27,7 +38,7 @@ public class CamFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        InitializeUtils();
     }
 
     @Override
@@ -44,12 +55,6 @@ public class CamFragment extends Fragment implements View.OnClickListener {
         ViewCreated();
     }
 
-    private void playStream(String src) {
-
-            vidView.setVideoPath(src);
-            vidView.start();
-    }
-
     public View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stat, container, false);
         vidView = (VideoView) view.findViewById(R.id.Streaming);
@@ -59,17 +64,10 @@ public class CamFragment extends Fragment implements View.OnClickListener {
         left = (ImageButton) view.findViewById(R.id.left);
         zoommoins = (ImageButton) view.findViewById(R.id.zoommoins);
         zoomplus = (ImageButton) view.findViewById(R.id.zoomplus);
-        return view;
-    }
+        speed = (SegmentedGroup) view.findViewById(R.id.speed);
 
-    public void ViewCreated() {
-        up.setOnClickListener(this);
-        down.setOnClickListener(this);
-        right.setOnClickListener(this);
-        left.setOnClickListener(this);
-        zoommoins.setOnClickListener(this);
-        zoomplus.setOnClickListener(this);
-
+        AxeX =(Spinner) view.findViewById(R.id.X);
+        AxeY =(Spinner) view.findViewById(R.id.Y);
 
         Glide.with(getActivity()).load(R.drawable.up).fitCenter().into(up);
         Glide.with(getActivity()).load(R.drawable.down).fitCenter().into(down);
@@ -77,32 +75,37 @@ public class CamFragment extends Fragment implements View.OnClickListener {
         Glide.with(getActivity()).load(R.drawable.right).fitCenter().into(right);
         Glide.with(getActivity()).load(R.drawable.moins).fitCenter().into(zoommoins);
         Glide.with(getActivity()).load(R.drawable.plus).fitCenter().into(zoomplus);
-        //playStream("http://trackfield.webcam.oregonstate.edu/axis-cgi/mjpg/video.cgi");
+
+        return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.up:
-                Toast.makeText(getContext(), "machine en avence", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.down:
-                Toast.makeText(getContext(), "machine en arriére", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.left:
-                Toast.makeText(getContext(), "machine to left", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.right:
-                Toast.makeText(getContext(), "machine to right", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.zoomplus:
-                Toast.makeText(getContext(), "machine camera zoom +", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.zoommoins:
-                Toast.makeText(getContext(), "machine camera zoom -", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
+    public void ViewCreated() {
+
+        speed.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.lowSpeed:
+                        Toast.makeText(getActivity(),"lowSpeed",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.NormalSpeed:
+                        Toast.makeText(getActivity(),"NormalSpeed",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.higthSpeed:
+                        Toast.makeText(getActivity(),"higthSpeed",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
     }
+
+
+    public void InitializeUtils(){
+        AxeXAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.AxeXValue,android.R.layout.simple_spinner_item);
+        AxeYAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.AxeYValue,android.R.layout.simple_spinner_item);
+
+    }
+
+
 }

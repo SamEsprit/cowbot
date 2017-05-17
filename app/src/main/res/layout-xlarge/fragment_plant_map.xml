@@ -12,16 +12,14 @@
         android:layout_height="match_parent"
         android:layout_weight="0.5"
         android:background="@color/cardview_shadow_start_color"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center" android:orientation="vertical">
 
     </LinearLayout>
     <LinearLayout android:id="@+id/plant_map"
                   android:layout_width="0dp"
                   android:layout_height="match_parent"
                   android:layout_weight="2.5"
-                  android:background="#ca8"
-                  android:orientation="vertical">
+                  android:background="#ca8" android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,53 +31,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="horizontal" android:visibility="visible">
+            android:layout_weight="1"
+            android:orientation="horizontal" android:visibility="visible">
             <LinearLayout
                 android:id="@+id/p4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -93,111 +104,141 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="horizontal" android:visibility="visible">
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="visible">
             <LinearLayout
                 android:id="@+id/p10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p11"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p12"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="horizontal" android:visibility="visible">
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="visible">
             <LinearLayout
                 android:id="@+id/p13"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal" android:visibility="visible">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p14"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p15"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" android:orientation="horizontal" android:visibility="visible">
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="visible">
             <LinearLayout
                 android:id="@+id/p16"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal" android:visibility="visible">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p17"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal" android:visibility="visible">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/p18"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/plant_place"
                 android:gravity="center"
-                android:orientation="horizontal" android:visibility="visible">
+                android:orientation="horizontal"
+                android:visibility="visible">
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

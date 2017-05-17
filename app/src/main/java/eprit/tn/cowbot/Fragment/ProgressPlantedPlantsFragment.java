@@ -1,10 +1,13 @@
 package eprit.tn.cowbot.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +45,7 @@ public class ProgressPlantedPlantsFragment extends Fragment {
     private CompositeDisposable mCompositeDisposable;
     private PlantedService plantedService;
     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+    RecyclerView.LayoutManager glayoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
 
     public ProgressPlantedPlantsFragment() {
         // Required empty public constructor
@@ -102,10 +106,10 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
     private void handlePlantedResponse(List<PlantedInput> plantedInputs) {
         progressData.setVisibility(View.INVISIBLE);
-        if(plantedInputs.size()==0)
+        if (plantedInputs.size() == 0)
             dataText.setVisibility(View.VISIBLE);
         else
-        setDataToRecyclerView(plantedInputs);
+            setDataToRecyclerView(plantedInputs);
     }
 
     /*
@@ -113,10 +117,12 @@ public class ProgressPlantedPlantsFragment extends Fragment {
      */
     private void setDataToRecyclerView(List<PlantedInput> plantedPlantArrayList) {
         PlantInProgress.setHasFixedSize(true);
-
+if (isTablet(getActivity()))
+    PlantInProgress.setLayoutManager(glayoutManager);
+        else
         PlantInProgress.setLayoutManager(mLayoutManager);
         PlantInProgress.setItemAnimator(new DefaultItemAnimator());
-        plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList,getActivity());
+        plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList, getActivity());
         PlantInProgress.setAdapter(plantedPlanAdapter);
         PlantInProgress.setVisibility(View.VISIBLE);
 
@@ -140,5 +146,9 @@ public class ProgressPlantedPlantsFragment extends Fragment {
         plantedService = ServiceFactory.createRetrofitService(PlantedService.class, URLS.EndPoint);
     }
 
-
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
+    }
 }
