@@ -178,7 +178,7 @@ public class PlantMapFragment extends Fragment {
     }
 
     private void getplantedSeed() {
-        mCompositeDisposable.add(plantService.getPlanteds(idUser)
+        mCompositeDisposable.add(plantService.getPlanteds(idUser).repeat(5)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handlePlantedResponse, this::handlePlantedError));
@@ -299,7 +299,7 @@ public class PlantMapFragment extends Fragment {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
                                 synchronize();
-                                getplantedSeed2();
+                                getplantedSeed();
                             }
                         })
                         .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -611,12 +611,6 @@ public class PlantMapFragment extends Fragment {
     }
 
 
-    private void getplantedSeed2() {
-        mCompositeDisposable.add(plantService.getPlanteds(idUser).repeat(5)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::handlePlantedResponse, this::handlePlantedError));
-    }
 
 
 

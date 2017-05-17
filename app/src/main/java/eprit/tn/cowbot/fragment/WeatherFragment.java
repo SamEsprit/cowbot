@@ -2,12 +2,14 @@ package eprit.tn.cowbot.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -94,7 +96,11 @@ public class WeatherFragment extends Fragment {
 
         List<Weather> weathers= new ArrayList<>();
         weathers.add(new Weather("Wind",weather.getWind(),R.drawable.wind));
-        weathers.add(new Weather("Wind \nDirection",weather.getWindDirection(),R.drawable.wind));
+        if(isTablet(getActivity()))
+        weathers.add(new Weather("Wind Direction",weather.getWindDirection(),R.drawable.wind));
+
+        else
+            weathers.add(new Weather("Wind \nDirection",weather.getWindDirection(),R.drawable.wind));
         weathers.add(new Weather("Humidity",weather.getHumidity()+"%",R.drawable.humidity));
         weathers.add(new Weather("Rain",weather.getRain(),R.drawable.rain));
         temperature.setText(weather.getTemperature()+"°c");
@@ -115,7 +121,11 @@ public class WeatherFragment extends Fragment {
     public void setDataToRecyclerView(List<Weather> weatherList) {
         weatherRs.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        weatherRs.setLayoutManager(mLayoutManager);
+        RecyclerView.LayoutManager glayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        if (isTablet(getActivity()))
+            weatherRs.setLayoutManager(glayoutManager);
+        else
+            weatherRs.setLayoutManager(mLayoutManager);
         weatherRs.setItemAnimator(new DefaultItemAnimator());
         weatherAdapter = new WeatherAdapter(weatherList, getActivity());
         weatherRs.setAdapter(weatherAdapter);
@@ -130,6 +140,11 @@ public class WeatherFragment extends Fragment {
         weath = (TextView) view.findViewById(R.id.weath);
         TempImg = (ImageView) view.findViewById(R.id.tempimg);
         return view;
+    }
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
     }
 
 }

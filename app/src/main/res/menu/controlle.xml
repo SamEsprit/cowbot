@@ -2,9 +2,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/status"
-        android:title=""
-        android:orderInCategory="100"
+        android:title="Status"
         app:showAsAction="ifRoom"
-        android:actionLayout="@layout/menu_etat"
-    />
+        android:orderInCategory="1"
+        app:actionViewClass="android.widget.Switch" />
 </menu>

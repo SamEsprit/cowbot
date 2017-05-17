@@ -51,18 +51,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ItemRecy
     @Override
     public void onBindViewHolder(ItemRecycleViewHolder holder, int position) {
 
-        /*switch (position)
 
-        {
-            case 0:
-                Ion.with(holder.backgrounds).fitXY().load("http://bestanimations.com/Nature/Water/rain/beautiful-rain-animated-gif-9.gif");
-                break;
-            case 3:
-
-                Ion.with(holder.backgrounds).fitXY().load("http://bestanimations.com/Nature/Water/rain/rain-nature-animated-gif-4.gif");
-
-                break;
-        }*/
         holder.backgrounds.setVisibility(View.GONE);
         Weather weather = weatherList.get(position);
         holder.titre.setText(weather.getTitre());

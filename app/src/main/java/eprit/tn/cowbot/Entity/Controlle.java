@@ -14,10 +14,26 @@ public class Controlle implements Serializable {
     private Integer user_id;
     @SerializedName("type")
     private String Type;
+    @SerializedName("speed")
+    private String Speed;
 
     public Controlle(Integer user_id, String type) {
         this.user_id = user_id;
         Type = type;
+    }
+
+    public Controlle(Integer user_id, String type, String speed) {
+        this.user_id = user_id;
+        Type = type;
+        Speed = speed;
+    }
+
+    public String getSpeed() {
+        return Speed;
+    }
+
+    public void setSpeed(String speed) {
+        Speed = speed;
     }
 
     public Integer getUser_id() {

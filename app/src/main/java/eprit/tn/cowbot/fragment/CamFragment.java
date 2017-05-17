@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.MenuItemCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,15 +16,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import eprit.tn.cowbot.Entity.Controlle;
+import eprit.tn.cowbot.Entity.Status;
 import eprit.tn.cowbot.Factory.ServiceFactory;
 import eprit.tn.cowbot.R;
 import eprit.tn.cowbot.Service.ControlleService;
@@ -44,7 +50,9 @@ public class CamFragment extends Fragment {
     private ArrayAdapter<CharSequence> AxeXAdapter, AxeYAdapter;
     private Integer idUser;
     private SharedPreferences sharedPreferences;
-
+    private Boolean active = false;
+    private String speedValue="1";
+    private Switch statusSwitch;
     public CamFragment() {
         // Required empty public constructor
     }
@@ -54,7 +62,6 @@ public class CamFragment extends Fragment {
         super.onCreate(savedInstanceState);
         InitializeUtils();
         setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.menu_etat);
     }
 
     @Override
@@ -68,7 +75,9 @@ public class CamFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ViewCreated();
+
     }
 
     public View InitializeView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,122 +109,135 @@ public class CamFragment extends Fragment {
         down.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                if (!active) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "down"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "down",speedValue))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
-                    case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_UP:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "downoff"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "downoff"))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
 
-                }
+                    }
+                } else
+                    Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
         up.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                if (!active) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "up"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "up",speedValue))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
-                    case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_UP:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "upoff"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
-
-
-                }
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "upoff"))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
+                    }
+                } else
+                    Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
         left.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                if (!active) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "left"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "left",speedValue))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
-                    case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_UP:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "leftoff"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "leftoff"))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
 
-                }
+                    }
+                } else
+                    Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
         right.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                if (!active) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "right"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "right",speedValue))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
-                    case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_UP:
 
-                        mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "rightoff"))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe());
-                        return true;
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "rightoff"))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe());
+                            return true;
 
 
-                }
+                    }
+                } else
+                    Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
         speed.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId) {
-                    case R.id.lowSpeed:
-                        Toast.makeText(getActivity(), "lowSpeed", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.NormalSpeed:
-                        Toast.makeText(getActivity(), "NormalSpeed", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.higthSpeed:
-                        Toast.makeText(getActivity(), "higthSpeed", Toast.LENGTH_SHORT).show();
-                        break;
-                }
+                if (!active) {
+                    switch (checkedId) {
+                        case R.id.lowSpeed:
+                            speedValue="0.5";
+                            break;
+                        case R.id.NormalSpeed:
+                            speedValue="1";
+                            break;
+                        case R.id.higthSpeed:
+                            speedValue="2";
+                            break;
+                    }
+                } else
+                    Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
 
     public void InitializeUtils() {
         AxeXAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.AxeXValue, android.R.layout.simple_spinner_item);
@@ -223,28 +245,60 @@ public class CamFragment extends Fragment {
         mCompositeDisposable = new CompositeDisposable();
         controlleService = ServiceFactory.createRetrofitService(ControlleService.class, URLS.EndPoint);
         sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
-        idUser =sharedPreferences.getInt("id", 0);
+        idUser = sharedPreferences.getInt("id", 0);
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.controlle, menu);
+        final MenuItem toggleservice = menu.findItem(R.id.status);
 
+         statusSwitch = (Switch) MenuItemCompat.getActionView(toggleservice);
+        mCompositeDisposable.add(controlleService.GetStatusControlle(idUser)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleStatusResponse, this::handleStatusError));
+        statusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    active = false;
+                    mCompositeDisposable.add(controlleService.StatusControlle(idUser, "2")
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe());
+                } else {
+                    active = true;
+                    mCompositeDisposable.add(controlleService.StatusControlle(idUser, "3")
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io()).subscribe());
+                }
+            }
+        });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
-        switch (item.getItemId()) {
-            case R.id.status:
+    private void handleStatusResponse(List<Status> status) {
 
 
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (status.get(0).getState().equals("0")) {
+            mCompositeDisposable.add(controlleService.StatusControlle(idUser, "2")
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe());
+            statusSwitch.setChecked(true);
+            active = false;
+
+        }
+        else{
+
+            active = true;
+            Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void handleStatusError(Throwable throwable) {
+        Log.d("throwble", throwable.getLocalizedMessage());
+    }
 
 }
