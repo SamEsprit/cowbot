@@ -145,7 +145,7 @@
                         android:layout_centerHorizontal="true"
                         android:indeterminate="false"
                         android:max="100"
-                        android:progressDrawable="@drawable/progressbar"/>
+                        android:progressDrawable="@drawable/progressbardraw"/>
                 </RelativeLayout>
 
 

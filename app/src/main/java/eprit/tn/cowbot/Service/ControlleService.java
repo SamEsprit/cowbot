@@ -1,19 +1,16 @@
 package eprit.tn.cowbot.Service;
 
-import java.util.List;
-
-import eprit.tn.cowbot.Entity.Planted.PlantedInput;
-import io.reactivex.Observable;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
+import eprit.tn.cowbot.Entity.Controlle;
+import io.reactivex.Completable;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 /**
  * Created by Sami on 16/05/2017.
  */
 
 public interface ControlleService {
-    @GET("Api/InProgressPlante/{id}")
-    Observable<List<PlantedInput>> InProgressPlant(@Path("id")int id);
-    @GET("Api/FinishedPlante/{id}")
-    Observable<List<PlantedInput>> FinishedPlante(@Path("id")int id);
+    @POST("Api/SetControlles")
+    Completable controlle(@Body Controlle controlle);
+
 }

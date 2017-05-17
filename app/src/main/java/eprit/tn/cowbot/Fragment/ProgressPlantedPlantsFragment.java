@@ -2,6 +2,7 @@ package eprit.tn.cowbot.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,8 +45,11 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
     private CompositeDisposable mCompositeDisposable;
     private PlantedService plantedService;
-    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-    RecyclerView.LayoutManager glayoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
+    private RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+    private RecyclerView.LayoutManager glayoutManager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+
+    private Integer idUser;
+    private SharedPreferences sharedPreferences;
 
     public ProgressPlantedPlantsFragment() {
         // Required empty public constructor
@@ -95,7 +99,7 @@ public class ProgressPlantedPlantsFragment extends Fragment {
 
 
     private void getData() {
-        mCompositeDisposable.add(plantedService.InProgressPlant(10)
+        mCompositeDisposable.add(plantedService.InProgressPlant(idUser)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handlePlantedResponse, this::handlePlantedError));
@@ -117,10 +121,10 @@ public class ProgressPlantedPlantsFragment extends Fragment {
      */
     private void setDataToRecyclerView(List<PlantedInput> plantedPlantArrayList) {
         PlantInProgress.setHasFixedSize(true);
-if (isTablet(getActivity()))
-    PlantInProgress.setLayoutManager(glayoutManager);
+        if (isTablet(getActivity()))
+            PlantInProgress.setLayoutManager(glayoutManager);
         else
-        PlantInProgress.setLayoutManager(mLayoutManager);
+            PlantInProgress.setLayoutManager(mLayoutManager);
         PlantInProgress.setItemAnimator(new DefaultItemAnimator());
         plantedPlanAdapter = new PlantedPlanAdapter(plantedPlantArrayList, getActivity());
         PlantInProgress.setAdapter(plantedPlanAdapter);
@@ -144,6 +148,9 @@ if (isTablet(getActivity()))
     private void InitializeUtils() {
         mCompositeDisposable = new CompositeDisposable();
         plantedService = ServiceFactory.createRetrofitService(PlantedService.class, URLS.EndPoint);
+
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        idUser =sharedPreferences.getInt("id", 0);
     }
 
     public boolean isTablet(Context context) {

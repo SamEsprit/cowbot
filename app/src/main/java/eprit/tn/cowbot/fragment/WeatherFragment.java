@@ -1,5 +1,7 @@
 package eprit.tn.cowbot.Fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -40,6 +42,9 @@ public class WeatherFragment extends Fragment {
 
     private CompositeDisposable mCompositeDisposable;
 
+    private Integer idUser;
+    private SharedPreferences sharedPreferences;
+
     private WeatherAdapter weatherAdapter;
     private WeatherService weatherService;
 
@@ -54,7 +59,8 @@ public class WeatherFragment extends Fragment {
         mCompositeDisposable = new CompositeDisposable();
         weatherService = ServiceFactory.createRetrofitService(WeatherService.class, URLS.EndPoint);
         geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.ENGLISH);
-
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        idUser =sharedPreferences.getInt("id", 0);
 
     }
 
@@ -76,7 +82,7 @@ public class WeatherFragment extends Fragment {
     private void setDataToRecyclerView() {
 
         mCompositeDisposable
-                .add(weatherService.getWeather(10)
+                .add(weatherService.getWeather(idUser)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io()).repeat()
                         .subscribe(this::handleResponse, this::handleError));
@@ -91,7 +97,7 @@ public class WeatherFragment extends Fragment {
         weathers.add(new Weather("Wind \nDirection",weather.getWindDirection(),R.drawable.wind));
         weathers.add(new Weather("Humidity",weather.getHumidity()+"%",R.drawable.humidity));
         weathers.add(new Weather("Rain",weather.getRain(),R.drawable.rain));
-        temperature.setText(weather.getTemperature()+"°C");
+        temperature.setText(weather.getTemperature()+"°c");
 
         setDataToRecyclerView(weathers);
         addresses = geocoder.getFromLocation(Double.parseDouble(weather.getLatitude()), Double.parseDouble(weather.getLongitude()), 1);

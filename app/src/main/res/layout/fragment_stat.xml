@@ -62,12 +62,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="4dp"
-                android:layout_weight="1" android:gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp" android:layout_weight="1"
+                    android:layout_margin="8dp" android:layout_weight="0.4"
                     android:gravity="center" android:orientation="vertical">
                     <TextView
                         android:id="@+id/textView12"
@@ -86,9 +87,9 @@
                         android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp" android:layout_weight="1"
+                    android:layout_margin="8dp" android:layout_weight="0.4"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/textView6"
@@ -105,6 +106,11 @@
                         android:entries="@array/AxeYValue" android:pointerIcon="arrow"
                         android:textAlignment="center"/>
                 </LinearLayout>
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:background="@android:color/holo_green_light" android:text="Go"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

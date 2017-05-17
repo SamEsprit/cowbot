@@ -1,6 +1,7 @@
 package eprit.tn.cowbot.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,6 +41,8 @@ public class SeedsFragment extends Fragment {
     private SeedService seedService;
     private PlantService plantService;
 
+    private Integer idUser;
+    private SharedPreferences sharedPreferences;
 
     private List<Plant> potList1, potList2, potList3, potList4, potList5;
     private ArrayAdapter<Plant> potList1Adapter, potList2Adapter, potList3Adapter, potList4Adapter, potList5Adapter;
@@ -102,6 +105,9 @@ public class SeedsFragment extends Fragment {
         potList3Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList3);
         potList4Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList4);
         potList5Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item, potList5);
+
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        idUser =sharedPreferences.getInt("id", 0);
     }
 
     public View InitilizeView(LayoutInflater inflater, ViewGroup container,
@@ -131,7 +137,7 @@ public class SeedsFragment extends Fragment {
 
 
     private void getSeedsPlants() {
-        mCompositeDisposable.add(seedService.getSeeds(10)
+        mCompositeDisposable.add(seedService.getSeeds(idUser)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse, this::handleError));

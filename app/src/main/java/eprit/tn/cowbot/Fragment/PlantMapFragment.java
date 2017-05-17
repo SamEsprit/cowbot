@@ -3,6 +3,7 @@ package eprit.tn.cowbot.Fragment;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,7 +29,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import eprit.tn.cowbot.Entity.Plant.PlantToPlantOutput;
 import eprit.tn.cowbot.Entity.PosLib;
@@ -49,9 +49,11 @@ public class PlantMapFragment extends Fragment {
     private CompositeDisposable mCompositeDisposable;
     private SeedService seedService;
     private PlantService plantService;
+    private List<SeedsInput> plantToPlant = new ArrayList<>();
+    private List<PosLib> posLib = new ArrayList<>();
 
-    List<SeedsInput> plantToPlant = new ArrayList<>();
-    List<PosLib> posLib = new ArrayList<>();
+    private Integer idUser;
+    private SharedPreferences sharedPreferences;
 
     public PlantMapFragment() {
         // Required empty public constructor
@@ -140,10 +142,12 @@ public class PlantMapFragment extends Fragment {
         mCompositeDisposable = new CompositeDisposable();
         seedService = ServiceFactory.createRetrofitService(SeedService.class, URLS.EndPoint);
         plantService = ServiceFactory.createRetrofitService(PlantService.class, URLS.EndPoint);
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        idUser = sharedPreferences.getInt("id", 0);
     }
 
     private void getSeedsPlants() {
-        mCompositeDisposable.add(seedService.getSeeds(10)
+        mCompositeDisposable.add(seedService.getSeeds(idUser)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse, this::handleError));
@@ -160,7 +164,9 @@ public class PlantMapFragment extends Fragment {
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         for (SeedsInput s : seedsInput) {
             View v = li.inflate(R.layout.item_plant, null);
-
+            if (isTablet(getActivity()) == true) {
+                v.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
+            }
             TextView libelle = (TextView) v.findViewById(R.id.libelle);
             ImageView PlantImg = (ImageView) v.findViewById(R.id.PlantImg);
             libelle.setText(s.getLibelle());
@@ -172,13 +178,14 @@ public class PlantMapFragment extends Fragment {
     }
 
     private void getplantedSeed() {
-        mCompositeDisposable.add(plantService.getPlanteds(10).delay(2, TimeUnit.SECONDS)
+        mCompositeDisposable.add(plantService.getPlanteds(idUser)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handlePlantedResponse, this::handlePlantedError));
     }
 
     private void handlePlantedResponse(List<SeedsInput> plants) {
+
         clearMapView();
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -262,8 +269,9 @@ public class PlantMapFragment extends Fragment {
                             break;
                     }
                     break;
+                default:
+                    break;
             }
-
         }
     }
 
@@ -291,7 +299,7 @@ public class PlantMapFragment extends Fragment {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
                                 synchronize();
-
+                                getplantedSeed2();
                             }
                         })
                         .show().setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -333,8 +341,8 @@ public class PlantMapFragment extends Fragment {
 
                         break;
                     case DragEvent.ACTION_DRAG_ENTERED:
-                        if (((LinearLayout) v).getChildCount()==0)
-                        v.setBackgroundResource(R.drawable.plant_place_drag_enter);
+                        if (((LinearLayout) v).getChildCount() == 0)
+                            v.setBackgroundResource(R.drawable.plant_place_drag_enter);
 
                         break;
                     case DragEvent.ACTION_DRAG_EXITED:
@@ -346,19 +354,19 @@ public class PlantMapFragment extends Fragment {
                         ViewGroup owner = (ViewGroup) view.getParent();
                         owner.removeView(view);
 
-                        if(isTablet(getActivity())==true)
-                        {
-                            view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0));
+                        if (isTablet(getActivity()) == true) {
+                            view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
                         }
                         TextView libelle = (TextView) view.findViewById(R.id.libelle);
                         PosLib poslib = new PosLib(position, libelle.getText().toString());
 
                         LinearLayout newParent = (LinearLayout) v;
-                        if (newParent.getChildCount()==1 )
-                            Toast.makeText(getActivity(),"Impossible to Drag the seeds in this place",Toast.LENGTH_SHORT).show();
-                        else{
-                        newParent.addView(view);
-                        posLib.add(poslib);}
+                        if (newParent.getChildCount() == 1)
+                            Toast.makeText(getActivity(), "Impossible to Drag the seeds in this place", Toast.LENGTH_SHORT).show();
+                        else {
+                            newParent.addView(view);
+                            posLib.add(poslib);
+                        }
                         view.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
@@ -484,7 +492,7 @@ public class PlantMapFragment extends Fragment {
             for (int j = 0; j < plantToPlant.size(); j++) {
                 if (posLib.get(i).getLibelle().equals(plantToPlant.get(j).getLibelle())) {
                     PlantToPlantOutput plantToPlantOutput = new PlantToPlantOutput();
-                    plantToPlantOutput.setUser_id(10);
+                    plantToPlantOutput.setUser_id(idUser);
                     plantToPlantOutput.setPlant_id(plantToPlant.get(j).getSeed().getPlant_id());
                     switch (posLib.get(i).getPos()) {
                         case "p1":
@@ -568,7 +576,7 @@ public class PlantMapFragment extends Fragment {
             mCompositeDisposable.add(plantService.addPlant(ptpo).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe());
-            getplantedSeed();
+
         }
 
         posLib.clear();
@@ -596,11 +604,21 @@ public class PlantMapFragment extends Fragment {
 
     }
 
-
-
     public boolean isTablet(Context context) {
         boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
         boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (xlarge || large);
     }
+
+
+    private void getplantedSeed2() {
+        mCompositeDisposable.add(plantService.getPlanteds(idUser).repeat(5)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handlePlantedResponse, this::handlePlantedError));
+    }
+
+
+
+
 }

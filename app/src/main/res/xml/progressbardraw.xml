@@ -3,29 +3,22 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@android:id/background">
-
         <shape
             android:innerRadiusRatio="3"
             android:shape="ring"
             android:thicknessRatio="7.0"
             android:useLevel="false">
-
             <solid android:color="#00a6ff"/>
-
         </shape>
-
     </item>
 
     <item android:id="@android:id/progress">
-
         <shape
             android:innerRadiusRatio="3"
             android:shape="ring"
             android:thicknessRatio="7.0">
-            <solid android:color="#21df00" />
-
+            <solid android:color="#21df00"/>
         </shape>
-
     </item>
 
 </layer-list>

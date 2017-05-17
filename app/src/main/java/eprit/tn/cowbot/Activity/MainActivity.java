@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.progress), R.drawable.progress));
         spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.weather),R.drawable.ic_filter_drama_black_24dp));
         spaceNavigationView.setCentreButtonIcon(R.drawable.settings);
-        spaceNavigationView.setSpaceBackgroundColor(getColor(R.color.colorPrimary));
+       //spaceNavigationView.setSpaceBackgroundColor(getApplicationContext().getColor(R.color.colorPrimary));
         spaceNavigationView.showIconOnly();
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
