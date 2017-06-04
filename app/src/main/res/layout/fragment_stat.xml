@@ -107,7 +107,7 @@
                         android:textAlignment="center"/>
                 </LinearLayout>
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/Goto"
                     android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_weight="0.2"
                     android:background="@android:color/holo_green_light" android:text="Go"/>

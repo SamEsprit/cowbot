@@ -3,6 +3,7 @@ package eprit.tn.cowbot.Service;
 import java.util.List;
 
 import eprit.tn.cowbot.Entity.Controlle;
+import eprit.tn.cowbot.Entity.GoTo;
 import eprit.tn.cowbot.Entity.Status;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -24,5 +25,8 @@ public interface ControlleService {
 
     @GET("Api/SetStateControllesFor/{user_id}/{state}")
     Completable StatusControlle(@Path("user_id") Integer user_id, @Path("state") String state);
+
+    @POST("Api/GoToAxis")
+    Completable GoTo(@Body GoTo goTo);
 
 }

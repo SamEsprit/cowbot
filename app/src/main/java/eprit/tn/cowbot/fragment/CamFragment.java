@@ -2,6 +2,7 @@ package eprit.tn.cowbot.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -29,6 +31,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import eprit.tn.cowbot.Entity.Controlle;
+import eprit.tn.cowbot.Entity.GoTo;
 import eprit.tn.cowbot.Entity.Status;
 import eprit.tn.cowbot.Factory.ServiceFactory;
 import eprit.tn.cowbot.R;
@@ -53,6 +56,7 @@ public class CamFragment extends Fragment {
     private Boolean active = false;
     private String speedValue="1";
     private Switch statusSwitch;
+    private Button Goto;
     public CamFragment() {
         // Required empty public constructor
     }
@@ -90,7 +94,7 @@ public class CamFragment extends Fragment {
         zoommoins = (ImageButton) view.findViewById(R.id.zoommoins);
         zoomplus = (ImageButton) view.findViewById(R.id.zoomplus);
         speed = (SegmentedGroup) view.findViewById(R.id.speed);
-
+        Goto=(Button)view.findViewById(R.id.Goto);
         AxeX = (Spinner) view.findViewById(R.id.X);
         AxeY = (Spinner) view.findViewById(R.id.Y);
 
@@ -105,7 +109,9 @@ public class CamFragment extends Fragment {
     }
 
     public void ViewCreated() {
-
+        Uri vidUri = Uri.parse("http://192.168.1.8:9090/stream/video.mjpeg");
+        vidView.setVideoURI(vidUri);
+        vidView.start();
         down.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -113,7 +119,7 @@ public class CamFragment extends Fragment {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "down",speedValue))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "down",speedValue))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -121,7 +127,7 @@ public class CamFragment extends Fragment {
 
                         case MotionEvent.ACTION_UP:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "downoff"))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "downoff"))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -142,7 +148,7 @@ public class CamFragment extends Fragment {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "up",speedValue))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "up",speedValue))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -150,7 +156,7 @@ public class CamFragment extends Fragment {
 
                         case MotionEvent.ACTION_UP:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "upoff"))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "upoff"))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -168,7 +174,7 @@ public class CamFragment extends Fragment {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "left",speedValue))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "left",speedValue))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -176,7 +182,7 @@ public class CamFragment extends Fragment {
 
                         case MotionEvent.ACTION_UP:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "leftoff"))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "leftoff"))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -196,7 +202,7 @@ public class CamFragment extends Fragment {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "right",speedValue))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "right",speedValue))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -204,7 +210,7 @@ public class CamFragment extends Fragment {
 
                         case MotionEvent.ACTION_UP:
 
-                            mCompositeDisposable.add(controlleService.controlle(new Controlle(10, "rightoff"))
+                            mCompositeDisposable.add(controlleService.controlle(new Controlle(idUser, "rightoff"))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
                                     .subscribe());
@@ -236,7 +242,19 @@ public class CamFragment extends Fragment {
                     Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
             }
         });
-
+        Goto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String X=AxeX.getSelectedItem().toString();
+                String Y=AxeY.getSelectedItem().toString();
+                Log.d("X",X);
+                Log.d("Y",Y);
+                mCompositeDisposable.add(controlleService.GoTo(new GoTo(idUser,X,Y,speedValue))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe());
+            }
+        });
     }
 
     public void InitializeUtils() {
@@ -280,7 +298,6 @@ public class CamFragment extends Fragment {
 
     private void handleStatusResponse(List<Status> status) {
 
-
         if (status.get(0).getState().equals("0")) {
             mCompositeDisposable.add(controlleService.StatusControlle(idUser, "2")
                     .observeOn(AndroidSchedulers.mainThread())
@@ -288,10 +305,8 @@ public class CamFragment extends Fragment {
                     .subscribe());
             statusSwitch.setChecked(true);
             active = false;
-
         }
         else{
-
             active = true;
             Toast.makeText(getActivity(), "Your cowbot is planting", Toast.LENGTH_SHORT).show();
         }
@@ -300,5 +315,8 @@ public class CamFragment extends Fragment {
     private void handleStatusError(Throwable throwable) {
         Log.d("throwble", throwable.getLocalizedMessage());
     }
+
+
+
 
 }
